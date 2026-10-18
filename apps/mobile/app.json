@@ -1,15 +1,15 @@
 {
   "expo": {
-    "name": "Lafz",
-    "slug": "lafz",
+    "name": "Subtivio",
+    "slug": "subtivio",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "lafz",
+    "scheme": "subtivio",
     "userInterfaceStyle": "automatic",
     "ios": {
       "icon": "./assets/expo.icon",
-      "bundleIdentifier": "app.lafz",
+      "bundleIdentifier": "app.subtivio",
       "supportsTablet": true
     },
     "android": {
@@ -20,7 +20,7 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "app.lafz"
+      "package": "app.subtivio"
     },
     "web": {
       "output": "single",
@@ -42,7 +42,7 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "Lafz needs access to your videos so you can add captions to them.",
+          "photosPermission": "Subtivio needs access to your videos so you can add captions to them.",
           "cameraPermission": false,
           "microphonePermission": false
         }

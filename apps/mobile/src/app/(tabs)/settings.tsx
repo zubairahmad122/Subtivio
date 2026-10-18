@@ -1,4 +1,4 @@
-import { PLANS } from '@lafz/core';
+import { PLANS } from '@subtivio/core';
 import { router } from 'expo-router';
 import { Plus, ShieldCheck, X } from 'lucide-react-native';
 import { useColorScheme } from 'nativewind';
@@ -91,7 +91,7 @@ function SpellingSection() {
     <View className="gap-3">
       <View className="gap-1">
         <Text variant="overline">My spellings · Roman Urdu</Text>
-        <Text variant="caption">Lafz will always write these words your way.</Text>
+        <Text variant="caption">Subtivio will always write these words your way.</Text>
       </View>
       <Card className="gap-3 p-4">
         {rules.map((rule, i) => (

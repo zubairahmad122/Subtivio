@@ -1,6 +1,6 @@
-# Lafz Architecture
+# Subtivio Architecture
 
-> Working name **Lafz** (لفظ, "word"). Rename freely: it lives in `app.json`, `package.json` names and a few UI strings.
+> **Subtivio** = Subtitle + Video. The name lives in `app.json`, `package.json` names and a few UI strings.
 > Last updated: 2026-10-18.
 
 ## 1. The one-paragraph version
@@ -20,7 +20,7 @@ The research (decision A5) says *don't build a native app first*, because Submag
 ```
  ┌────────────────────── apps/mobile (Expo: iOS · Android · Web) ──────────────────────┐
  │ expo-router screens → TanStack Query hooks → ProjectRepository (demo | supabase)     │
- │ CaptionStage (live preview) ← @lafz/core (templates, grouping, scripts, editing)     │
+ │ CaptionStage (live preview) ← @subtivio/core (templates, grouping, scripts, editing)     │
  └───────────────┬───────────────────────────────┬──────────────────────────────────────┘
                  │ auth, rows, realtime          │ presigned PUT (video)
                  ▼                               ▼
@@ -36,7 +36,7 @@ The research (decision A5) says *don't build a native app first*, because Submag
         │         Sarvam Saaras (Hinglish / Hindi)       │
         │ 2. Transliterate + normalise: Claude Haiku     │
         │    (JSON in/out, word count must not change)   │
-        │ 3. Render: Remotion + @lafz/core templates     │
+        │ 3. Render: Remotion + @subtivio/core templates     │
         │    Noto Nastaliq Urdu, watermark on Free       │
         └────────────────────────────────────────────────┘
  Billing webhooks: Lemon Squeezy (web) + RevenueCat (App Store / Play) → entitlements table
@@ -67,7 +67,7 @@ The research (decision A5) says *don't build a native app first*, because Submag
 | Theme | Tokens in `src/theme/tokens.ts` → CSS variables via `vars()` | One source of truth for `className` *and* JS (icons, gradients, navigation) |
 | Server state | **TanStack Query 5** | Caching, polling while processing, optimistic edits |
 | Client state | **Zustand 5** | Small, no boilerplate |
-| Validation | **Zod 4** schemas in `@lafz/core` | Same types in app, worker and DB |
+| Validation | **Zod 4** schemas in `@subtivio/core` | Same types in app, worker and DB |
 | Video | `expo-video` | Player time drives the caption overlay at 30 Hz |
 | Fonts | Inter (UI), **Noto Nastaliq Urdu**, Noto Sans Devanagari (all OFL) | Nastaliq is the differentiator; no competitor markets it |
 | Backend | **Supabase** (Auth, Postgres + RLS, Realtime, Edge Functions) | Least ops for a solo founder. Schema: `supabase/migrations` |
@@ -84,7 +84,7 @@ The research (decision A5) says *don't build a native app first*, because Submag
 ## 6. Repository layout
 
 ```
-lafz/
+subtivio/
 ├── apps/mobile/                 Expo app (iOS · Android · Web)
 │   ├── src/app/                 Routes only (expo-router)
 │   │   ├── (tabs)/              Home · Styles · Settings
@@ -104,7 +104,7 @@ lafz/
 
 **Rules of thumb**
 - Route files stay thin: data comes from feature hooks, UI comes from `components/ui`.
-- Anything both the app and the worker need (timing, templates, scripts, plans) goes in `@lafz/core` as **pure functions with tests**.
+- Anything both the app and the worker need (timing, templates, scripts, plans) goes in `@subtivio/core` as **pure functions with tests**.
 - Screens never import Supabase directly; they go through `ProjectRepository`. Moving off demo mode means changing one line in `features/projects/queries.ts`.
 - No secrets in the app. `EXPO_PUBLIC_*` values are public; ASR, LLM and R2 keys live only on the worker.
 
@@ -113,7 +113,7 @@ lafz/
 - **Dark-first, premium.** Warm near-black ink (`#0B0A09`), warm-paper light theme (`#FAF7F1`).
 - **Saffron gold** (`#F4B740`) is the primary colour. It is also the default caption highlight, so the brand *is* the product.
 - **Emerald** (`#34D399`) for success, privacy and the billing-trust promises.
-- Rounded 24–32 px cards, Inter 800 display type, and the Nastaliq "لفظ" next to the wordmark.
+- Rounded 24–32 px cards, Inter 800 display type, and a saffron full stop on the "Subtivio." wordmark.
 - Follows the OS light/dark setting by default; you can override it in Settings.
 
 ## 8. Build phases (mapped to the Action Plan)

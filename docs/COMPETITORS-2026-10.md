@@ -31,8 +31,8 @@ Sources: [AutoCaption](https://www.autocaption.studio/) · [AutoCaption Roman Ur
 2. **No watermark on free is becoming the norm** (AutoCaption, VideoCaptions.AI). Keep the watermark only if it clearly drives growth. Test it against a "free = 3 videos, no watermark" variant.
 3. **Prices are low** ($6–8 entry). The $12 Creator plan needs clearly better output, or the agency features (batch, team seats, brand kits, API) that none of these have. **Agencies remain the open lane.**
 4. **Speed matters.** Bolti doubled its installs in months. Phase 1 (pipeline + Fiverr gigs) should start now.
-5. **Do a hands-on test this week:** run the same 5 reels through AutoCaption, Bolti, Alfaaz and VideoCaptions.AI. Score Roman Urdu spelling, Nastaliq quality and timing. That table becomes your sales page ("Lafz vs …"), which is the same SEO play VideoCaptions.AI is running.
-6. **Name:** "Alfaaz" is taken. "Lafz" showed no caption-app conflict in a quick search; check the domain and trademark before committing.
+5. **Do a hands-on test this week:** run the same 5 reels through AutoCaption, Bolti, Alfaaz and VideoCaptions.AI. Score Roman Urdu spelling, Nastaliq quality and timing. That table becomes your sales page ("Subtivio vs …"), which is the same SEO play VideoCaptions.AI is running.
+6. **Name:** "Alfaaz" is taken. "Subtivio" showed no caption-app conflict in a quick search; check the domain and trademark before committing.
 
 ## Still true from the original research
 

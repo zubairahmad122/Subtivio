@@ -1,4 +1,4 @@
-import { SCRIPT_ORDER, SCRIPTS, type Script } from '@lafz/core';
+import { SCRIPT_ORDER, SCRIPTS, type Script } from '@subtivio/core';
 
 import { SegmentedControl } from '@/components/ui/segmented-control';
 

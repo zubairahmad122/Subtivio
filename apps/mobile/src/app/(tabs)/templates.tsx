@@ -1,4 +1,4 @@
-import { SAMPLE_TRANSCRIPT, TEMPLATES, type Script } from '@lafz/core';
+import { SAMPLE_TRANSCRIPT, TEMPLATES, type Script } from '@subtivio/core';
 import { useState } from 'react';
 import { View } from 'react-native';
 

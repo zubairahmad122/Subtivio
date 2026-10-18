@@ -1,4 +1,4 @@
-import type { PlanId, SpellingRule } from '@lafz/core';
+import type { PlanId, SpellingRule } from '@subtivio/core';
 import { create } from 'zustand';
 
 export type Appearance = 'system' | 'light' | 'dark';

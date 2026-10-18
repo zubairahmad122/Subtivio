@@ -1,4 +1,4 @@
-import { SAMPLE_TRANSCRIPT, transcriptDuration, type Project } from '@lafz/core';
+import { SAMPLE_TRANSCRIPT, transcriptDuration, type Project } from '@subtivio/core';
 
 import type { ProjectRepository } from './repository';
 
@@ -14,7 +14,7 @@ const demo: Project = {
   status: 'ready',
   language: 'ur',
   script: 'roman',
-  templateId: 'lafz',
+  templateId: 'signature',
   durationSec: transcriptDuration(SAMPLE_TRANSCRIPT),
   transcript: SAMPLE_TRANSCRIPT,
 };
@@ -52,7 +52,7 @@ export const demoRepository: ProjectRepository = {
       id: Math.random().toString(36).slice(2, 10),
       createdAt: new Date().toISOString(),
       status: 'transcribing',
-      templateId: 'lafz',
+      templateId: 'signature',
     };
     store.set(project.id, project);
     return project;

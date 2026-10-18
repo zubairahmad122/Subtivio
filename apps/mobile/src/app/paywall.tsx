@@ -1,4 +1,4 @@
-import { PLAN_ORDER, PLANS, type Plan, type PlanId } from '@lafz/core';
+import { PLAN_ORDER, PLANS, type Plan, type PlanId } from '@subtivio/core';
 import { router } from 'expo-router';
 import { BellRing, Check, RotateCcw, X, XCircle } from 'lucide-react-native';
 import { useState } from 'react';
@@ -41,7 +41,7 @@ export default function PaywallScreen() {
     <Screen edges={['top', 'bottom']}>
       <View className="flex-row items-start justify-between">
         <View className="flex-1 gap-1">
-          <Text variant="title">Go further with Lafz</Text>
+          <Text variant="title">Go further with Subtivio</Text>
           <Text variant="caption">No watermark, every style, more videos.</Text>
         </View>
         <Button

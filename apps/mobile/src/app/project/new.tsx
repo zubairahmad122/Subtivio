@@ -1,4 +1,4 @@
-import { PLANS, type Script, type SpokenLanguage } from '@lafz/core';
+import { PLANS, type Script, type SpokenLanguage } from '@subtivio/core';
 import * as ImagePicker from 'expo-image-picker';
 import { router } from 'expo-router';
 import { Film, Play, X } from 'lucide-react-native';

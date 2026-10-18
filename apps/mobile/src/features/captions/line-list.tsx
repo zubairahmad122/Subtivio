@@ -1,4 +1,4 @@
-import { SCRIPTS, wordText, type CaptionLine, type Script } from '@lafz/core';
+import { SCRIPTS, wordText, type CaptionLine, type Script } from '@subtivio/core';
 import { Check } from 'lucide-react-native';
 import { useState } from 'react';
 import { Pressable, TextInput, View } from 'react-native';

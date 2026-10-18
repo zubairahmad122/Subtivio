@@ -1,4 +1,4 @@
-# Lafz
+# Subtivio
 
 pnpm monorepo. Read `docs/ARCHITECTURE.md` first; Expo-specific rules are in `apps/mobile/AGENTS.md`.
 

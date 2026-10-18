@@ -1,4 +1,4 @@
--- Lafz initial schema. Mirrors the types in packages/core.
+-- Subtivio initial schema. Mirrors the types in packages/core.
 -- Every table is protected by row-level security: a user only sees their own rows.
 -- The render/ASR worker uses the service role and bypasses RLS.
 
@@ -21,7 +21,7 @@ create table projects (
   status project_status not null default 'uploading',
   language spoken_language not null,
   script caption_script not null default 'roman',
-  template_id text not null default 'lafz',
+  template_id text not null default 'signature',
   duration_sec numeric not null check (duration_sec >= 0),
   -- Object keys in Cloudflare R2, not URLs. The worker signs URLs on demand.
   source_key text,

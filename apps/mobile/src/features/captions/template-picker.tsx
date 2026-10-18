@@ -1,4 +1,4 @@
-import { TEMPLATES } from '@lafz/core';
+import { TEMPLATES } from '@subtivio/core';
 import { Lock } from 'lucide-react-native';
 import { Pressable, ScrollView, View } from 'react-native';
 

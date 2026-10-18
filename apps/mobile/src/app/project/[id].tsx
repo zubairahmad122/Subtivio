@@ -10,7 +10,7 @@ import {
   type CaptionLine,
   type Project,
   type Transcript,
-} from '@lafz/core';
+} from '@subtivio/core';
 import { router, useLocalSearchParams } from 'expo-router';
 import { VideoView } from 'expo-video';
 import { ArrowLeft, AudioLines, Check, Download, Pause, Play, Upload } from 'lucide-react-native';

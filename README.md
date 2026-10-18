@@ -1,4 +1,4 @@
-# Lafz · لفظ
+# Subtivio
 
 AI captions for reels in **Roman Urdu, Urdu (Nastaliq) and Hindi**, from one recording with word-by-word highlight.
 Built with Expo (iOS · Android · Web), NativeWind and Supabase.

@@ -26,7 +26,7 @@ importers:
       '@expo-google-fonts/noto-sans-devanagari':
         specifier: ^0.4.1
         version: 0.4.1
-      '@lafz/core':
+      '@subtivio/core':
         specifier: workspace:*
         version: link:../../packages/core
       '@supabase/supabase-js':
@@ -5779,9 +5779,7 @@ snapshots:
       metro-runtime: 0.87.1
     transitivePeerDependencies:
       - '@babel/core'
-      - bufferutil
       - supports-color
-      - utf-8-validate
 
   '@react-native/normalize-colors@0.74.89': {}
 

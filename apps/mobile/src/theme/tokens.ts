@@ -1,5 +1,5 @@
 /**
- * Lafz design tokens: "Ink & Saffron".
+ * Subtivio design tokens: "Ink & Saffron".
  *
  * Warm near-black ink, a saffron-gold primary (the caption highlight colour
  * creators will see on every export) and an emerald accent. Dark is the hero

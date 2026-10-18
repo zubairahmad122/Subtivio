@@ -6,7 +6,7 @@ import {
   type CaptionTemplate,
   type Script,
   type Word,
-} from '@lafz/core';
+} from '@subtivio/core';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState, type ReactNode } from 'react';
 import { Text, View } from 'react-native';
@@ -73,7 +73,7 @@ export function CaptionStage({
       {watermark ? (
         <View className="absolute bottom-4 right-4 rounded-full bg-black/40 px-2.5 py-1">
           <Text style={{ fontFamily: 'Inter_600SemiBold' }} className="text-[10px] text-white/80">
-            Made with Lafz
+            Made with Subtivio
           </Text>
         </View>
       ) : null}

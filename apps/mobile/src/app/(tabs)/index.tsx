@@ -1,4 +1,4 @@
-import { PLANS, SCRIPTS, type Project, type ProjectStatus } from '@lafz/core';
+import { PLANS, SCRIPTS, type Project, type ProjectStatus } from '@subtivio/core';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Link, router } from 'expo-router';
 import { ChevronRight, Clapperboard, Plus, Sparkles } from 'lucide-react-native';
@@ -46,10 +46,9 @@ function Header() {
   const plan = useSettings((s) => s.plan);
   return (
     <View className="flex-row items-center justify-between">
-      <View className="flex-row items-baseline gap-2">
-        <Text variant="display">Lafz</Text>
-        <Text className="font-nastaliq text-2xl leading-[52px] text-primary">لفظ</Text>
-      </View>
+      <Text variant="display">
+        Subtivio<Text className="text-primary">.</Text>
+      </Text>
       <Badge
         label={PLANS[plan].name.toUpperCase()}
         tone={plan === 'free' ? 'neutral' : 'primary'}

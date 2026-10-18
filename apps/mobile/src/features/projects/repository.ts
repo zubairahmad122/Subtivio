@@ -1,4 +1,4 @@
-import type { Project, Script, SpokenLanguage } from '@lafz/core';
+import type { Project, Script, SpokenLanguage } from '@subtivio/core';
 
 export type CreateProjectInput = {
   title: string;

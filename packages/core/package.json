@@ -1,5 +1,5 @@
 {
-  "name": "@lafz/core",
+  "name": "@subtivio/core",
   "version": "0.1.0",
   "private": true,
   "description": "Caption domain logic shared by the app and the render worker: scripts, transcripts, line grouping, templates, plans.",

@@ -1,4 +1,4 @@
-import type { Project } from '@lafz/core';
+import type { Project } from '@subtivio/core';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { demoRepository } from './demo-repository';

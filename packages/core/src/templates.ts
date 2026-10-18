@@ -43,8 +43,8 @@ export type CaptionTemplate = {
 
 export const TEMPLATES: readonly CaptionTemplate[] = [
   {
-    id: 'lafz',
-    name: 'Lafz',
+    id: 'signature',
+    name: 'Signature',
     category: 'essentials',
     tier: 'free',
     size: 0.072,

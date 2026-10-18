@@ -1,12 +1,12 @@
 {
-  "name": "@lafz/mobile",
+  "name": "@subtivio/mobile",
   "version": "1.0.0",
   "main": "expo-router/entry",
   "dependencies": {
     "@expo-google-fonts/inter": "^0.4.2",
     "@expo-google-fonts/noto-nastaliq-urdu": "^0.4.2",
     "@expo-google-fonts/noto-sans-devanagari": "^0.4.1",
-    "@lafz/core": "workspace:*",
+    "@subtivio/core": "workspace:*",
     "@supabase/supabase-js": "^2.118.0",
     "@tanstack/react-query": "^5.104.4",
     "class-variance-authority": "^0.7.1",
