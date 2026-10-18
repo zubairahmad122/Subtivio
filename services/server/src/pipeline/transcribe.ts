@@ -68,6 +68,11 @@ export async function transcribe(
     case 'gemini':
       return geminiTranscribe(projectDir, sourceName, language, durationSec);
     case 'demo':
+      if (!env.DEMO_TRANSCRIPT) {
+        throw new Error(
+          'No transcription key on the server. Put ASSEMBLYAI_API_KEY or GEMINI_API_KEY in services/server/.env and restart "pnpm run server".',
+        );
+      }
       return { words: SAMPLE_TRANSCRIPT.words, engine: 'demo', allScripts: true };
   }
 }

@@ -45,7 +45,7 @@ export function startTranscription(id: string, sourceName: string) {
 
       const notices = [
         asr.engine === 'demo' &&
-          'Demo transcript: add ASSEMBLYAI_API_KEY or GEMINI_API_KEY to the server for real captions.',
+          'Sample transcript (DEMO_TRANSCRIPT is on): these are not the words in your video.',
         asr.engine === 'gemini' &&
           `Transcribed by Gemini (${asr.model}). Word timing is approximate; tap a line to fix it if needed.`,
         !converted.complete &&

@@ -19,6 +19,8 @@ const EnvSchema = z.object({
    */
   GEMINI_FLASH_DAILY_LIMIT: z.coerce.number().int().positive().default(1500),
   GEMINI_LITE_DAILY_LIMIT: z.coerce.number().int().positive().default(1000),
+  /** Testing only: use the bundled sample transcript when no ASR key is set. */
+  DEMO_TRANSCRIPT: z.stringbool().default(false),
   FFMPEG_PATH: z.string().default('ffmpeg'),
   FFPROBE_PATH: z.string().default('ffprobe'),
 });

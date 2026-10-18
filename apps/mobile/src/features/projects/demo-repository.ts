@@ -1,9 +1,8 @@
 import { SAMPLE_TRANSCRIPT, transcriptDuration, type Project } from '@subtivio/core';
 
-import type { ProjectRepository } from './repository';
+import { apiUrl } from '@/lib/api';
 
-/** Simulated worker time from upload to captions being ready. */
-const PROCESSING_MS = 2800;
+import type { ProjectRepository } from './repository';
 
 const store = new Map<string, Project>();
 
@@ -27,8 +26,8 @@ function find(id: string): Project {
 }
 
 /**
- * In-memory backend for demo mode. New projects get the sample transcript
- * after a short delay, standing in for ASR + transliteration on the worker.
+ * In-memory backend used when no server answers: only the bundled sample
+ * project, so the editor can be tried without a server.
  */
 export const demoRepository: ProjectRepository = {
   async list() {
@@ -36,26 +35,17 @@ export const demoRepository: ProjectRepository = {
   },
 
   async get(id) {
-    const project = find(id);
-    const ageMs = Date.now() - Date.parse(project.createdAt);
-    if (project.status === 'transcribing' && ageMs > PROCESSING_MS) {
-      const ready: Project = { ...project, status: 'ready', transcript: SAMPLE_TRANSCRIPT };
-      store.set(id, ready);
-      return ready;
-    }
-    return project;
+    return find(id);
   },
 
-  async create(input) {
-    const project: Project = {
-      ...input,
-      id: Math.random().toString(36).slice(2, 10),
-      createdAt: new Date().toISOString(),
-      status: 'transcribing',
-      templateId: 'signature',
-    };
-    store.set(project.id, project);
-    return project;
+  /**
+   * Never fake captions for a real video: without the server there is no
+   * transcription, so say exactly where the app looked.
+   */
+  async create() {
+    throw new Error(
+      `No Subtivio server at ${apiUrl}. On the laptop run "pnpm run server", keep the phone on the same Wi-Fi, and allow port 8787 in the firewall. Test by opening ${apiUrl}/health in the phone's browser.`,
+    );
   },
 
   async update(id, patch) {

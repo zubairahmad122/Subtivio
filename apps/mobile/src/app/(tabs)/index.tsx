@@ -43,10 +43,10 @@ function BackendStatus() {
   if (!backend) return null;
   const text =
     backend.kind === 'demo'
-      ? 'Demo mode · start the server (pnpm run server) for real videos'
+      ? `No server at ${backend.apiUrl} · run "pnpm run server" on the laptop`
       : backend.health.transcription === 'demo'
-        ? 'Server connected · demo transcripts until ASSEMBLYAI_API_KEY is set'
-        : 'Server connected · AI transcription on';
+        ? 'Server connected · no API keys in services/server/.env'
+        : `Server connected · ${backend.health.transcription === 'gemini' ? 'Gemini' : 'AssemblyAI'} transcription`;
   return (
     <View className="-mt-3 flex-row items-center gap-2">
       <View

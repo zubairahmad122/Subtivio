@@ -1,7 +1,7 @@
 import type { Project } from '@subtivio/core';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { checkServer, type ServerHealth } from '@/lib/api';
+import { apiUrl, checkServer, type ServerHealth } from '@/lib/api';
 
 import { demoRepository } from './demo-repository';
 import { httpRepository } from './http-repository';
@@ -12,14 +12,26 @@ import type {
   ProjectRepository,
 } from './repository';
 
-type Backend = { kind: 'server'; health: ServerHealth } | { kind: 'demo' };
+type Backend = { kind: 'server'; health: ServerHealth } | { kind: 'demo'; apiUrl: string };
 
-// Decided once per app start: the local server if it answers, else demo data.
+/**
+ * The local server if it answers, else demo data. A found server is kept;
+ * "no server" is re-checked after a few seconds, so starting the server
+ * while the app is open just works.
+ */
 let backendPromise: Promise<Backend> | undefined;
+let checkedAt = 0;
 function detectBackend(): Promise<Backend> {
-  backendPromise ??= checkServer().then((health) =>
-    health ? { kind: 'server', health } : { kind: 'demo' },
-  );
+  if (!backendPromise || Date.now() - checkedAt > 5000) {
+    const previous = backendPromise;
+    checkedAt = Date.now();
+    backendPromise = (async () => {
+      const prior = await previous;
+      if (prior?.kind === 'server') return prior;
+      const health = await checkServer();
+      return health ? { kind: 'server', health } : { kind: 'demo', apiUrl };
+    })();
+  }
   return backendPromise;
 }
 
@@ -36,7 +48,12 @@ const keys = {
 const BUSY: Project['status'][] = ['uploading', 'transcribing', 'rendering'];
 
 export function useBackend() {
-  return useQuery({ queryKey: keys.backend, queryFn: detectBackend, staleTime: Infinity });
+  return useQuery({
+    queryKey: keys.backend,
+    queryFn: detectBackend,
+    // Keep looking for the server while in demo mode.
+    refetchInterval: (query) => (query.state.data?.kind === 'demo' ? 5000 : false),
+  });
 }
 
 export function useProjects() {

@@ -35,7 +35,16 @@ Copy `services/server/.env.example` to `services/server/.env` and add your keys.
 
 ffmpeg note: Ubuntu 24.04's ffmpeg 6.1 draws Nastaliq as empty boxes; Arch/CachyOS ffmpeg is fine. On older distros set `FFMPEG_PATH`/`FFPROBE_PATH` to a newer static build.
 
-If no server answers, the app falls back to **demo mode** with in-memory sample data.
+If no server answers, the Home screen says "No server at …" and uploads show an error; the app never puts sample captions on your video. It keeps checking and connects as soon as the server starts.
+
+### Troubleshooting
+
+| Symptom | Fix |
+|---|---|
+| Home says "No server at http://…:8787" | Run `pnpm run server` on the laptop; phone and laptop on the same Wi-Fi. Open `http://<laptop-ip>:8787/health` in the phone's browser to test. |
+| `/health` opens on the laptop but not on the phone | The firewall blocks port 8787: `sudo ufw allow 8787/tcp` (ufw) or `sudo firewall-cmd --add-port=8787/tcp` (firewalld). |
+| "No transcription key on the server" | Keys must be in `services/server/.env` (not the project root). Restart `pnpm run server`; its startup log should not say "demo". |
+
 
 **On your Android phone (local build, no Expo cloud):** needs Android Studio / Android SDK and JDK 17, and the phone connected by USB with USB debugging on.
 
