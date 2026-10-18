@@ -21,14 +21,14 @@ pnpm check        # typecheck + lint + tests
 
 Without `apps/mobile/.env.local` the app runs in **demo mode** with a sample transcript. Copy `.env.example` to connect Supabase.
 
-**Development build (live reload on your phone, recommended):**
-1. Once: `pnpm build:dev`, then install the APK from the link it prints.
-2. Every day: `pnpm dev`, open the Subtivio dev app on the phone and pick the server (or scan the QR code). Saved code changes appear on the phone instantly.
+**On your Android phone (local build, no Expo cloud):** needs Android Studio / Android SDK and JDK 17, and the phone connected by USB with USB debugging on.
 
-**Quick try without a build:** run `pnpm dev`, then scan the QR code with the Expo Go app (Android) or the Camera app (iPhone). Phone and computer must be on the same Wi-Fi; otherwise use `cd apps/mobile && npx expo start --tunnel`.
-
-**Installable Android APK:** `pnpm build:apk` (needs a free Expo account; the build runs in the cloud and gives you a download link).
-**iPhone build / App Store:** needs an Apple Developer account ($99/year), then `npx eas-cli@latest build -p ios`.
+| Command | What it does |
+|---|---|
+| `pnpm android` | Builds the debug app, installs it on the phone and starts the dev server. Saved code changes appear live. Run it again only after adding a native package. |
+| `pnpm dev` | Starts the dev server only, once the debug app is already installed. |
+| `pnpm build:apk` | Builds a standalone release APK (no dev server needed) to share with testers. |
+| `pnpm install:apk` | Installs that release APK on the USB-connected phone. |
 
 ## Layout
 

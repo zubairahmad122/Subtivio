@@ -15,8 +15,8 @@
     "check": "pnpm typecheck && pnpm lint && pnpm test",
     "android": "pnpm --filter @subtivio/mobile android",
     "ios": "pnpm --filter @subtivio/mobile ios",
-    "build:apk": "cd apps/mobile && npx eas-cli@latest build -p android --profile preview",
-    "build:dev": "cd apps/mobile && npx eas-cli@latest build -p android --profile development"
+    "build:apk": "pnpm --filter @subtivio/mobile build:apk",
+    "install:apk": "pnpm --filter @subtivio/mobile install:apk"
   },
   "devDependencies": {
     "prettier": "^3.6.2",
