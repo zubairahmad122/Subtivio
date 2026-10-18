@@ -28,7 +28,7 @@ The app finds the server automatically on the same machine as the Expo dev serve
 |---|---|---|
 | Upload + video info | Saves to `services/server/data/`, ffprobe | ffmpeg 7+ with libass |
 | Speech to text | AssemblyAI (word timings, Urdu/Hindi/Punjabi/English) | `ASSEMBLYAI_API_KEY` |
-| Roman / Nastaliq / Hindi for every word | Claude (`TRANSLIT_MODEL`, default Haiku) | `ANTHROPIC_API_KEY` |
+| Roman / Nastaliq / Hindi for every word | Gemini (free tier) or Claude Haiku | `GEMINI_API_KEY` or `ANTHROPIC_API_KEY` |
 | MP4 with burned-in captions | `@subtivio/core` → ASS subtitles → ffmpeg + libass | Fonts are bundled |
 
 Copy `services/server/.env.example` to `services/server/.env` and add your keys. Without keys it still runs end to end with a demo transcript, so you can test upload, editing and export.

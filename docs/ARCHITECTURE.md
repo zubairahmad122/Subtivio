@@ -74,7 +74,7 @@ The research (decision A5) says *don't build a native app first*, because Submag
 | Storage | **Cloudflare R2** | No egress fees for video |
 | Queue | **pg-boss** (inside Postgres) | No Redis to run |
 | ASR | AssemblyAI Universal-2 (~$0.0025/min, Urdu) + Sarvam Saaras (Hinglish) | From research Module 05; confirm with your own WER test |
-| LLM | Claude Haiku | Cheap and fast for word-level transliteration |
+| LLM | Claude Haiku, or Gemini Flash on its free tier | Word-level transliteration; Gemini keeps it at $0 before revenue (free-tier prompts may be used by Google) |
 | Render | **Remotion** (free for 1–3 person teams) on the worker | Browser text shaping makes Nastaliq correct; shares template data with the app |
 | Web payments | **Lemon Squeezy** | Pays out to Pakistani banks (verified in research). Stripe owns it since 2024; keep **Paddle** as the backup |
 | Mobile payments | **RevenueCat** + StoreKit / Play Billing | Apple and Google require in-app purchase for digital subscriptions bought inside the app |

@@ -6,6 +6,7 @@ import { app } from './app';
 import { env } from './env';
 import { recoverInterruptedJobs } from './jobs';
 import { prepareFonts } from './pipeline/media';
+import { transliterationProvider } from './pipeline/transliterate';
 
 await prepareFonts();
 await recoverInterruptedJobs();
@@ -21,7 +22,7 @@ serve({ fetch: app.fetch, port: env.PORT, hostname: '0.0.0.0' }, ({ port }) => {
     `  transcription: ${env.ASSEMBLYAI_API_KEY ? 'AssemblyAI' : 'demo (no ASSEMBLYAI_API_KEY)'}`,
   );
   console.log(
-    `  script conversion: ${env.ANTHROPIC_API_KEY ? env.TRANSLIT_MODEL : 'off (no ANTHROPIC_API_KEY)'}`,
+    `  script conversion: ${transliterationProvider() ?? 'off (set GEMINI_API_KEY or ANTHROPIC_API_KEY)'}`,
   );
   console.log(`  data: ${env.DATA_DIR}`);
 });

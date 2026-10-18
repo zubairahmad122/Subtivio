@@ -32,13 +32,16 @@ export function startTranscription(id: string, sourceName: string) {
       });
 
       const asr = await transcribe(file, project.language);
-      const converted = await transliterate(asr.words, NATIVE_SCRIPT[project.language]);
+      // The demo transcript already has every script.
+      const converted = asr.mock
+        ? { words: asr.words, complete: true }
+        : await transliterate(asr.words, NATIVE_SCRIPT[project.language]);
 
       const notices = [
         asr.mock && 'Demo transcript: add ASSEMBLYAI_API_KEY to the server for real captions.',
         !asr.mock &&
           !converted.complete &&
-          'Some words are only in the original script: add ANTHROPIC_API_KEY to the server for Roman/Urdu/Hindi conversion.',
+          'Some words are only in the original script: add GEMINI_API_KEY (free) or ANTHROPIC_API_KEY to the server for Roman/Urdu/Hindi conversion.',
       ].filter(Boolean);
 
       await updateProject(id, {

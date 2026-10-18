@@ -8,6 +8,8 @@ const EnvSchema = z.object({
   ASSEMBLYAI_API_KEY: z.string().optional(),
   ANTHROPIC_API_KEY: z.string().optional(),
   TRANSLIT_MODEL: z.string().default('claude-haiku-5-5'),
+  GEMINI_API_KEY: z.string().optional(),
+  GEMINI_MODEL: z.string().default('gemini-3.8-flash'),
   FFMPEG_PATH: z.string().default('ffmpeg'),
   FFPROBE_PATH: z.string().default('ffprobe'),
 });
