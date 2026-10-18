@@ -69,6 +69,6 @@ export const demoRepository: ProjectRepository = {
   },
 
   async exportVideo() {
-    throw new Error('Start the Subtivio server (pnpm server) to export videos.');
+    throw new Error('Start the Subtivio server (pnpm run server) to export videos.');
   },
 };

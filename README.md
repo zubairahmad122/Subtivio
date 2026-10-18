@@ -14,7 +14,7 @@ Built with Expo (iOS · Android · Web), NativeWind and Supabase.
 
 ```bash
 pnpm install
-pnpm server       # terminal 1: API + transcription + MP4 rendering (port 8787)
+pnpm run server       # terminal 1: API + transcription + MP4 rendering (port 8787)
 pnpm android      # terminal 2: build + install on a USB phone, live reload
 pnpm web          # or: open the app in the browser
 pnpm check        # typecheck + lint + tests

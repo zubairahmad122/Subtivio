@@ -43,7 +43,7 @@ function BackendStatus() {
   if (!backend) return null;
   const text =
     backend.kind === 'demo'
-      ? 'Demo mode · start the server (pnpm server) for real videos'
+      ? 'Demo mode · start the server (pnpm run server) for real videos'
       : backend.health.transcription === 'demo'
         ? 'Server connected · demo transcripts until ASSEMBLYAI_API_KEY is set'
         : 'Server connected · AI transcription on';
