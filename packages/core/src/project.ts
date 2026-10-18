@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { ScriptSchema } from './scripts';
+import { StyleSchema } from './style';
 import { SpokenLanguageSchema, TranscriptSchema } from './transcript';
 
 /**
@@ -25,6 +26,8 @@ export const ProjectSchema = z.object({
   language: SpokenLanguageSchema,
   script: ScriptSchema,
   templateId: z.string(),
+  /** The user's adjustments on top of the template. */
+  style: StyleSchema.optional(),
   durationSec: z.number().nonnegative(),
   /** Local file (before upload) or server URL (after). Absent for the demo project. */
   videoUri: z.string().optional(),

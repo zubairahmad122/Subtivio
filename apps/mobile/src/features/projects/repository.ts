@@ -8,7 +8,9 @@ export type CreateProjectInput = {
   script: Script;
 };
 
-export type ProjectPatch = Partial<Pick<Project, 'title' | 'script' | 'templateId' | 'transcript'>>;
+export type ProjectPatch = Partial<
+  Pick<Project, 'title' | 'script' | 'templateId' | 'style' | 'transcript'>
+>;
 
 export type ExportOptions = { watermark: boolean; spellingRules: SpellingRule[] };
 

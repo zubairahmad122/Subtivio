@@ -1,7 +1,13 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-import { applySpellingRules, getTemplate, toAss, type SpellingRule } from '@subtivio/core';
+import {
+  applySpellingRules,
+  applyStyle,
+  getTemplate,
+  toAss,
+  type SpellingRule,
+} from '@subtivio/core';
 
 import { burnCaptions, probe } from './pipeline/media';
 import { NATIVE_SCRIPT, transcribe } from './pipeline/transcribe';
@@ -75,7 +81,7 @@ export function startExport(id: string, sourceName: string, options: ExportOptio
       const ass = toAss({
         words,
         script: project.script,
-        template: getTemplate(project.templateId),
+        template: applyStyle(getTemplate(project.templateId), project.style),
         width: project.width,
         height: project.height,
         watermark: options.watermark,

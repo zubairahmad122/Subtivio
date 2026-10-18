@@ -2,10 +2,11 @@ import { describe, expect, it } from 'vitest';
 
 import { assColor, toAss } from './ass';
 import { applySpellingRules } from './dictionary';
-import { retextLine } from './editing';
-import { activeWordIndex, groupIntoLines, lineAt } from './grouping';
+import { deleteLine, retextLine, shiftLine, splitLineAt } from './editing';
+import { activeWordIndex, DEFAULT_GROUPING, groupIntoLines, lineAt } from './grouping';
 import { SAMPLE_TRANSCRIPT } from './sample';
 import { toSrt } from './srt';
+import { applyStyle } from './style';
 import { getTemplate } from './templates';
 import { availableScripts, wordText } from './transcript';
 
@@ -146,5 +147,60 @@ describe('toAss', () => {
   it('converts css colours to ASS', () => {
     expect(assColor('#F4B740')).toBe('&H0040B7F4');
     expect(assColor('rgba(255,255,255,0.55)')).toBe('&H73FFFFFF');
+  });
+});
+
+describe('line tools', () => {
+  const lines = groupIntoLines(words, 'roman');
+  const first = lines[0]!;
+
+  it('splits a line at a word and keeps the split through regrouping', () => {
+    const split = splitLineAt(words, first, 2);
+    const regrouped = groupIntoLines(split, 'roman');
+    expect(regrouped[0]!.words.map((w) => w.text.roman)).toEqual(['Aaj', 'main']);
+    expect(regrouped[1]!.words[0]!.text.roman).toBe('aap');
+    expect(splitLineAt(words, first, 0)).toEqual(words);
+  });
+
+  it('deletes a line', () => {
+    const out = deleteLine(words, first);
+    expect(out).toHaveLength(words.length - first.words.length);
+    expect(out[0]!.text.roman).toBe('batata');
+  });
+
+  it('shifts a line without overlapping neighbours', () => {
+    // "hain." ends at 3.9 s and the next word starts at 4.6 s: room to move later.
+    const line = lines.find((l) => l.words.at(-1)!.text.roman === 'hain.')!;
+    const i = words.findIndex((w) => w.id === line.words[0]!.id);
+    const later = shiftLine(words, line, 0.1, 10);
+    expect(later[i]!.start).toBeCloseTo(words[i]!.start + 0.1);
+    expect(shiftLine(words, line, 5, 10)[i + line.words.length - 1]!.end).toBe(4.6);
+    // The previous word ends where this line starts, so it cannot move earlier.
+    expect(shiftLine(words, line, -0.5, 10)).toEqual(words);
+    // The first line can only move back to 0.
+    expect(shiftLine(words, first, -5, 10)[0]!.start).toBe(0);
+  });
+});
+
+describe('applyStyle', () => {
+  const template = getTemplate('signature');
+
+  it('layers user adjustments on the template', () => {
+    const styled = applyStyle(template, {
+      y: 0.3,
+      sizeScale: 1.5,
+      highlightColor: '#00FF00',
+      maxWords: 2,
+    });
+    expect(styled.y).toBe(0.3);
+    expect(styled.size).toBeCloseTo(template.size * 1.5);
+    expect(styled.highlightColor).toBe('#00FF00');
+    expect(
+      groupIntoLines(words, 'roman', { ...DEFAULT_GROUPING, ...styled.grouping })[0]!.words,
+    ).toHaveLength(2);
+  });
+
+  it('returns the template unchanged without a style', () => {
+    expect(applyStyle(template)).toEqual({ ...template, grouping: template.grouping });
   });
 });

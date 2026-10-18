@@ -16,6 +16,8 @@ export const WordSchema = z.object({
   start: z.number().nonnegative(),
   end: z.number().nonnegative(),
   confidence: z.number().min(0).max(1).optional(),
+  /** Set by the editor's Split: this word always starts a new caption line. */
+  breakBefore: z.boolean().optional(),
   text: z.partialRecord(ScriptSchema, z.string()),
 });
 export type Word = z.infer<typeof WordSchema>;

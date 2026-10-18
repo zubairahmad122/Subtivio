@@ -26,7 +26,8 @@ export const DEFAULT_GROUPING: GroupingOptions = {
 
 /**
  * Splits timed words into short caption lines, the way reels show them.
- * A line breaks at the word limit, the character limit, or a pause.
+ * A line breaks at the word limit, the character limit, a pause, or a word
+ * the user split at (`breakBefore`).
  */
 export function groupIntoLines(
   words: readonly Word[],
@@ -55,7 +56,7 @@ export function groupIntoLines(
       current.length >= options.maxWords ||
       (current.length > 0 && chars + 1 + length > options.maxChars);
 
-    if (prev && (wouldOverflow || pause > options.breakOnGap)) flush();
+    if (prev && (word.breakBefore || wouldOverflow || pause > options.breakOnGap)) flush();
 
     current.push(word);
     chars += (current.length > 1 ? 1 : 0) + length;

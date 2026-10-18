@@ -7,5 +7,6 @@ export * from './project';
 export * from './sample';
 export * from './scripts';
 export * from './srt';
+export * from './style';
 export * from './templates';
 export * from './transcript';

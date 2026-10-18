@@ -2,7 +2,7 @@ import type { GroupingOptions } from './grouping';
 
 /**
  * A caption template is pure data. The app's live preview (React Native) and
- * the export renderer (Remotion on the worker) both read the same spec, so a
+ * the export renderer (`toAss` + ffmpeg on the server) both read the same spec, so a
  * template looks the same on the phone and in the final MP4.
  */
 export type HighlightMode =

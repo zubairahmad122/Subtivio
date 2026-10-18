@@ -38,3 +38,44 @@ export function retextLine(
 
   return [...words.slice(0, first), ...replacement, ...words.slice(first + line.words.length)];
 }
+
+const indexOfLine = (words: readonly Word[], line: CaptionLine) =>
+  words.findIndex((w) => w.id === line.words[0]?.id);
+
+/** Starts a new caption line at the line's `wordIndex`-th word. */
+export function splitLineAt(words: readonly Word[], line: CaptionLine, wordIndex: number): Word[] {
+  const target = line.words[wordIndex];
+  if (!target || wordIndex === 0) return [...words];
+  return words.map((w) => (w.id === target.id ? { ...w, breakBefore: true } : w));
+}
+
+/** Removes a whole caption line (e.g. a filler or a mis-heard phrase). */
+export function deleteLine(words: readonly Word[], line: CaptionLine): Word[] {
+  const ids = new Set(line.words.map((w) => w.id));
+  return words.filter((w) => !ids.has(w.id));
+}
+
+/**
+ * Moves a line earlier or later by `delta` seconds without overlapping the
+ * words around it or leaving the video.
+ */
+export function shiftLine(
+  words: readonly Word[],
+  line: CaptionLine,
+  delta: number,
+  durationSec: number,
+): Word[] {
+  const first = indexOfLine(words, line);
+  if (first === -1) return [...words];
+  const last = first + line.words.length - 1;
+  const minStart = words[first - 1]?.end ?? 0;
+  const maxEnd = words[last + 1]?.start ?? durationSec;
+  const clamped = Math.min(Math.max(delta, minStart - line.start), maxEnd - line.end);
+  if (clamped === 0) return [...words];
+  const round = (t: number) => +t.toFixed(3);
+  return words.map((w, i) =>
+    i >= first && i <= last
+      ? { ...w, start: round(w.start + clamped), end: round(w.end + clamped) }
+      : w,
+  );
+}

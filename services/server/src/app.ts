@@ -39,7 +39,12 @@ function present(project: Project, origin: string): Project {
   return { ...project, videoUri: abs(project.videoUri), exportUrl: abs(project.exportUrl) };
 }
 
-const PatchSchema = ProjectSchema.pick({ title: true, script: true, templateId: true })
+const PatchSchema = ProjectSchema.pick({
+  title: true,
+  script: true,
+  templateId: true,
+  style: true,
+})
   .partial()
   .extend({ transcript: TranscriptSchema.optional() });
 
