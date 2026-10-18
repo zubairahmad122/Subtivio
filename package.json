@@ -12,7 +12,10 @@
     "lint": "pnpm -r lint",
     "test": "pnpm -r test",
     "format": "prettier --write .",
-    "check": "pnpm typecheck && pnpm lint && pnpm test"
+    "check": "pnpm typecheck && pnpm lint && pnpm test",
+    "android": "pnpm --filter @subtivio/mobile android",
+    "ios": "pnpm --filter @subtivio/mobile ios",
+    "build:apk": "cd apps/mobile && npx eas-cli@latest build -p android --profile preview"
   },
   "devDependencies": {
     "prettier": "^3.6.2",

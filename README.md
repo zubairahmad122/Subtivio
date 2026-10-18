@@ -21,8 +21,10 @@ pnpm check        # typecheck + lint + tests
 
 Without `apps/mobile/.env.local` the app runs in **demo mode** with a sample transcript. Copy `.env.example` to connect Supabase.
 
-Native modules (expo-video, image picker, secure store) need a development build:
-`npx eas-cli@latest build --profile development`, or `npx expo run:ios|android` locally.
+**On your phone:** run `pnpm dev`, then scan the QR code with the Expo Go app (Android) or the Camera app (iPhone). Phone and computer must be on the same Wi-Fi; otherwise use `cd apps/mobile && npx expo start --tunnel`.
+
+**Installable Android APK:** `pnpm build:apk` (needs a free Expo account; the build runs in the cloud and gives you a download link).
+**iPhone build / App Store:** needs an Apple Developer account ($99/year), then `npx eas-cli@latest build -p ios`.
 
 ## Layout
 
