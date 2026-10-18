@@ -16,7 +16,8 @@
     "android": "pnpm --filter @subtivio/mobile android",
     "ios": "pnpm --filter @subtivio/mobile ios",
     "build:apk": "pnpm --filter @subtivio/mobile build:apk",
-    "install:apk": "pnpm --filter @subtivio/mobile install:apk"
+    "install:apk": "pnpm --filter @subtivio/mobile install:apk",
+    "server": "pnpm --filter @subtivio/server dev"
   },
   "devDependencies": {
     "prettier": "^3.6.2",

@@ -63,4 +63,12 @@ export const demoRepository: ProjectRepository = {
     store.set(id, updated);
     return updated;
   },
+
+  async remove(id) {
+    store.delete(id);
+  },
+
+  async exportVideo() {
+    throw new Error('Start the Subtivio server (pnpm server) to export videos.');
+  },
 };

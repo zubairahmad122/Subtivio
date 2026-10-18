@@ -1,10 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
+import { assColor, toAss } from './ass';
 import { applySpellingRules } from './dictionary';
 import { retextLine } from './editing';
 import { activeWordIndex, groupIntoLines, lineAt } from './grouping';
 import { SAMPLE_TRANSCRIPT } from './sample';
 import { toSrt } from './srt';
+import { getTemplate } from './templates';
 import { availableScripts, wordText } from './transcript';
 
 const words = SAMPLE_TRANSCRIPT.words;
@@ -97,5 +99,52 @@ describe('retextLine', () => {
     expect(edited.at(-1)!.end).toBe(line.end);
     for (let i = 1; i < edited.length; i++) expect(edited[i]!.start).toBe(edited[i - 1]!.end);
     expect(out[5]).toEqual(words[4]);
+  });
+});
+
+describe('toAss', () => {
+  const template = getTemplate('signature');
+  const ass = toAss({
+    words,
+    script: 'roman',
+    template,
+    width: 1080,
+    height: 1920,
+    watermark: true,
+  });
+  const dialogues = ass.split('\n').filter((l) => l.startsWith('Dialogue: 0,'));
+
+  it('emits one event per word, highlighting that word', () => {
+    expect(dialogues).toHaveLength(words.length);
+    expect(dialogues[0]).toContain('{\\c&H0040B7F4}Aaj{\\c&H00FFFFFF}');
+    expect(dialogues[1]).toMatch(/Aaj \{\\c&H0040B7F4\}main/);
+  });
+
+  it('uses video-relative size and position', () => {
+    expect(ass).toContain('PlayResX: 1080');
+    expect(ass).toContain(
+      `Style: Caption,Inter ExtraBold,${Math.round(1080 * template.size * 1.43)},`,
+    );
+    expect(dialogues[0]).toContain(`\\pos(540,${Math.round(1920 * template.y)})`);
+  });
+
+  it('adds the watermark only when asked', () => {
+    expect(ass).toContain('Made with Subtivio');
+    const clean = toAss({
+      words,
+      script: 'urdu',
+      template,
+      width: 720,
+      height: 1280,
+      watermark: false,
+    });
+    expect(clean).not.toContain('Made with Subtivio');
+    expect(clean).toContain('Noto Nastaliq Urdu');
+    expect(clean).toContain('آج');
+  });
+
+  it('converts css colours to ASS', () => {
+    expect(assColor('#F4B740')).toBe('&H0040B7F4');
+    expect(assColor('rgba(255,255,255,0.55)')).toBe('&H73FFFFFF');
   });
 });

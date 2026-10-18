@@ -14,12 +14,28 @@ Built with Expo (iOS · Android · Web), NativeWind and Supabase.
 
 ```bash
 pnpm install
-pnpm web          # open in the browser
-pnpm dev          # Expo dev server (press i / a for simulators)
+pnpm server       # terminal 1: API + transcription + MP4 rendering (port 8787)
+pnpm android      # terminal 2: build + install on a USB phone, live reload
+pnpm web          # or: open the app in the browser
 pnpm check        # typecheck + lint + tests
 ```
 
-Without `apps/mobile/.env.local` the app runs in **demo mode** with a sample transcript. Copy `.env.example` to connect Supabase.
+### The server (`services/server`)
+
+The app finds the server automatically on the same machine as the Expo dev server. It does the real work:
+
+| Step | How | Needs |
+|---|---|---|
+| Upload + video info | Saves to `services/server/data/`, ffprobe | ffmpeg 7+ with libass |
+| Speech to text | AssemblyAI (word timings, Urdu/Hindi/Punjabi/English) | `ASSEMBLYAI_API_KEY` |
+| Roman / Nastaliq / Hindi for every word | Claude (`TRANSLIT_MODEL`, default Haiku) | `ANTHROPIC_API_KEY` |
+| MP4 with burned-in captions | `@subtivio/core` → ASS subtitles → ffmpeg + libass | Fonts are bundled |
+
+Copy `services/server/.env.example` to `services/server/.env` and add your keys. Without keys it still runs end to end with a demo transcript, so you can test upload, editing and export.
+
+ffmpeg note: Ubuntu 24.04's ffmpeg 6.1 draws Nastaliq as empty boxes; Arch/CachyOS ffmpeg is fine. On older distros set `FFMPEG_PATH`/`FFPROBE_PATH` to a newer static build.
+
+If no server answers, the app falls back to **demo mode** with in-memory sample data.
 
 **On your Android phone (local build, no Expo cloud):** needs Android Studio / Android SDK and JDK 17, and the phone connected by USB with USB debugging on.
 
@@ -35,7 +51,8 @@ Without `apps/mobile/.env.local` the app runs in **demo mode** with a sample tra
 | Path | What |
 |---|---|
 | `apps/mobile` | Expo Router app: screens, design system, features |
-| `packages/core` | Shared caption logic: scripts, transcript, line grouping, templates, editing, SRT, plans (tested) |
+| `packages/core` | Shared caption logic: scripts, transcript, line grouping, templates, editing, SRT/ASS export, plans (tested) |
+| `services/server` | Local API + worker: upload, transcription, script conversion, MP4 rendering |
 | `supabase/migrations` | Postgres schema with row-level security |
 | `docs/ARCHITECTURE.md` | System design, tech choices, build phases |
 | `docs/COMPETITORS-2026-10.md` | Competitor re-check (Oct 2026) |

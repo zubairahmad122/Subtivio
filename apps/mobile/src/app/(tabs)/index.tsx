@@ -9,9 +9,9 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Screen } from '@/components/ui/screen';
 import { Text } from '@/components/ui/text';
-import { useProjects } from '@/features/projects/queries';
+import { useBackend, useProjects } from '@/features/projects/queries';
 import { useSettings } from '@/features/settings/store';
-import { isDemoMode } from '@/lib/env';
+import { cn } from '@/lib/cn';
 import { useTheme } from '@/theme/theme-provider';
 
 export default function HomeScreen() {
@@ -20,11 +20,7 @@ export default function HomeScreen() {
   return (
     <Screen>
       <Header />
-      {isDemoMode ? (
-        <Text variant="caption" className="-mt-3">
-          Demo mode · sample transcript, no backend connected
-        </Text>
-      ) : null}
+      <BackendStatus />
       <Hero />
       <UsageCard used={projects?.filter((p) => p.id !== 'demo').length ?? 0} />
 
@@ -39,6 +35,25 @@ export default function HomeScreen() {
         )}
       </View>
     </Screen>
+  );
+}
+
+function BackendStatus() {
+  const { data: backend } = useBackend();
+  if (!backend) return null;
+  const text =
+    backend.kind === 'demo'
+      ? 'Demo mode · start the server (pnpm server) for real videos'
+      : backend.health.transcription === 'demo'
+        ? 'Server connected · demo transcripts until ASSEMBLYAI_API_KEY is set'
+        : 'Server connected · AI transcription on';
+  return (
+    <View className="-mt-3 flex-row items-center gap-2">
+      <View
+        className={cn('h-2 w-2 rounded-full', backend.kind === 'server' ? 'bg-accent' : 'bg-muted')}
+      />
+      <Text variant="caption">{text}</Text>
+    </View>
   );
 }
 

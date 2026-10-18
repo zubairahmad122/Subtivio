@@ -118,15 +118,18 @@ subtivio/
 
 ## 8. Build phases (mapped to the Action Plan)
 
-| Phase | Weeks | Scope | Status |
-|---|---|---|---|
-| 0. Foundation | 1 | Monorepo, design system, core domain + tests, all screens on demo data, DB schema | **Done (this commit)** |
-| 1. Pipeline spike | 1–2 | `services/worker` script: R2 upload → AssemblyAI → Haiku transliteration → JSON. Run the 30-reel WER test, and use it for the Fiverr gigs | Next |
-| 2. Real backend | 3–4 | Supabase auth (Google + email), `SupabaseProjectRepository`, presigned uploads, pg-boss jobs, Realtime status | |
-| 3. Export | 4–5 | Remotion composition reading `CaptionTemplate`, watermark, SRT download | |
-| 4. Money | 5–6 | Lemon Squeezy checkout + webhooks → `entitlements`; usage limits from `usage_events` | |
-| 5. Launch | 7–8 | Web launch + Product Hunt; then an EAS build with RevenueCat for the App Store and Play | |
-| 6. Agency | 9–12 | Team seats, brand kits, batch upload, API (Submagic-style `POST /projects`) | |
+| Phase | Scope | Status |
+|---|---|---|
+| 0. Foundation | Monorepo, design system, core domain + tests, screens, DB schema | Done |
+| 1. Pipeline | `services/server`: upload, ffprobe, AssemblyAI ASR, Claude transliteration, file-based project store | Done (local server) |
+| 2. App ↔ server | HTTP repository, upload from phone/web, polling, edits saved, delete, demo fallback | Done |
+| 3. Export | `toAss` in core (same template spec as the preview) → ffmpeg + libass MP4, watermark on Free, open/download | Done |
+| 4. Hosting | Move the server to a VPS; Supabase auth + Postgres instead of JSON files; R2 instead of local disk | Next |
+| 5. Money | Lemon Squeezy checkout + webhooks → `entitlements`; usage limits | |
+| 6. Launch | Web launch + Product Hunt; Play Store release build with a real signing key | |
+| 7. Agency | Team seats, brand kits, batch upload, public API | |
+
+**Rendering choice:** the plan listed Remotion or FFmpeg + libass. FFmpeg + libass won: no headless Chrome to run, one command per export, and libass + HarfBuzz shape Nastaliq correctly (verified on ffmpeg 8; Ubuntu 24.04's ffmpeg 6.1 does not, see README). libass sizes fonts by their full height, so `toAss` scales each font by its winAscent+winDescent/em ratio to match the app preview.
 
 ## 9. Known limitations and risks
 

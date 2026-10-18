@@ -1,3 +1,4 @@
+export * from './ass';
 export * from './dictionary';
 export * from './editing';
 export * from './grouping';

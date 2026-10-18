@@ -10,7 +10,7 @@ import { Screen } from '@/components/ui/screen';
 import { SegmentedControl } from '@/components/ui/segmented-control';
 import { Text } from '@/components/ui/text';
 import { ScriptToggle } from '@/features/captions/script-toggle';
-import { useCreateProject } from '@/features/projects/queries';
+import { useBackend, useCreateProject } from '@/features/projects/queries';
 import { useSettings } from '@/features/settings/store';
 import { cn } from '@/lib/cn';
 import { useTheme } from '@/theme/theme-provider';
@@ -21,6 +21,7 @@ export default function NewProjectScreen() {
   const { colors } = useTheme();
   const plan = PLANS[useSettings((s) => s.plan)];
   const createProject = useCreateProject();
+  const { data: backend } = useBackend();
 
   const [video, setVideo] = useState<PickedVideo>();
   const [error, setError] = useState<string>();
@@ -57,6 +58,7 @@ export default function NewProjectScreen() {
       {
         onSuccess: (project) =>
           router.replace({ pathname: '/project/[id]', params: { id: project.id } }),
+        onError: (err) => setError(`Upload failed: ${err.message}`),
       },
     );
   }
@@ -117,17 +119,19 @@ export default function NewProjectScreen() {
       <View className="gap-3">
         <Button
           size="lg"
-          label="Generate captions"
+          label={createProject.isPending ? 'Uploading…' : 'Generate captions'}
           disabled={!video}
           loading={createProject.isPending}
           onPress={generate}
         />
-        <Button
-          variant="ghost"
-          icon={Play}
-          label="Try the sample clip"
-          onPress={() => router.replace({ pathname: '/project/[id]', params: { id: 'demo' } })}
-        />
+        {backend?.kind === 'demo' ? (
+          <Button
+            variant="ghost"
+            icon={Play}
+            label="Try the sample clip"
+            onPress={() => router.replace({ pathname: '/project/[id]', params: { id: 'demo' } })}
+          />
+        ) : null}
       </View>
     </Screen>
   );

@@ -1,4 +1,10 @@
-import { SCRIPTS, wordText, type CaptionLine, type CaptionTemplate, type Script } from '@subtivio/core';
+import {
+  SCRIPTS,
+  wordText,
+  type CaptionLine,
+  type CaptionTemplate,
+  type Script,
+} from '@subtivio/core';
 import { Text, View, type TextStyle } from 'react-native';
 import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
 
