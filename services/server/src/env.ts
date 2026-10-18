@@ -13,6 +13,12 @@ const EnvSchema = z.object({
   GEMINI_MODEL: z.string().optional(),
   /** Comma-separated list that replaces automatic model discovery. */
   GEMINI_MODELS: z.string().optional(),
+  /**
+   * Estimated free requests per day. Google does not report the real quota
+   * (see AI Studio); these numbers only decide when to switch model early.
+   */
+  GEMINI_FLASH_DAILY_LIMIT: z.coerce.number().int().positive().default(1500),
+  GEMINI_LITE_DAILY_LIMIT: z.coerce.number().int().positive().default(1000),
   FFMPEG_PATH: z.string().default('ffmpeg'),
   FFPROBE_PATH: z.string().default('ffprobe'),
 });

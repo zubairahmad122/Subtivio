@@ -17,6 +17,7 @@ import { z } from 'zod';
 
 import { env } from './env';
 import { startExport, startTranscription } from './jobs';
+import { geminiPool } from './pipeline/gemini';
 import { transcriptionEngine } from './pipeline/transcribe';
 import { transliterationProvider } from './pipeline/transliterate';
 import {
@@ -65,6 +66,12 @@ app.get('/health', (c) =>
     transliteration: transliterationProvider() ?? 'off',
   }),
 );
+
+/** Free Gemini models with today's usage and estimated remaining requests. */
+app.get('/ai/models', async (c) => {
+  if (!env.GEMINI_API_KEY) return c.json({ models: [] });
+  return c.json({ models: await geminiPool.status() });
+});
 
 app.get('/projects', async (c) => {
   const origin = new URL(c.req.url).origin;

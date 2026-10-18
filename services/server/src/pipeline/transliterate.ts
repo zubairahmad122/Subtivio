@@ -63,7 +63,7 @@ const gemini: Provider = {
   name: 'Gemini',
   async request(texts) {
     // The pool moves to the next free model when one is rate-limited.
-    const { result } = await geminiPool.run(async (model) => {
+    const { result } = await geminiPool.run('convert', async (model) => {
       const response = await geminiClient().models.generateContent({
         model,
         contents: userPrompt(texts),
@@ -74,7 +74,10 @@ const gemini: Provider = {
         },
       });
       const parsed = Output.safeParse(JSON.parse(response.text ?? 'null'));
-      return parsed.success ? parsed.data : undefined;
+      return {
+        value: parsed.success ? parsed.data : undefined,
+        tokens: response.usageMetadata?.totalTokenCount,
+      };
     });
     return result;
   },

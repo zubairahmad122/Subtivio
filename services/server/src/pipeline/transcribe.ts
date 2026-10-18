@@ -94,7 +94,7 @@ async function geminiTranscribe(
   const audio = await extractAudio(projectDir, sourceName);
   const data = (await fs.promises.readFile(audio)).toString('base64');
 
-  const { result, model } = await geminiPool.run(async (model) => {
+  const { result, model } = await geminiPool.run('transcribe', async (model) => {
     const response = await gemini().models.generateContent({
       model,
       contents: [
@@ -117,7 +117,7 @@ async function geminiTranscribe(
     });
     const parsed = SegmentsSchema.safeParse(JSON.parse(response.text ?? 'null'));
     if (!parsed.success) throw new Error('Gemini returned captions in an unexpected format.');
-    return parsed.data;
+    return { value: parsed.data, tokens: response.usageMetadata?.totalTokenCount };
   });
 
   const words = segmentsToWords(result, durationSec);

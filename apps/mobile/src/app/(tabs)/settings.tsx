@@ -10,6 +10,7 @@ import { Card } from '@/components/ui/card';
 import { Screen } from '@/components/ui/screen';
 import { SegmentedControl } from '@/components/ui/segmented-control';
 import { Text } from '@/components/ui/text';
+import { AiModelsCard } from '@/features/settings/ai-models-card';
 import { useSettings } from '@/features/settings/store';
 import { useTheme } from '@/theme/theme-provider';
 
@@ -31,6 +32,7 @@ export default function SettingsScreen() {
         <Button size="sm" label="See plans" onPress={() => router.push('/paywall')} />
       </Card>
 
+      <AiModelsCard />
       <AppearanceSection />
       <SpellingSection />
 
@@ -85,7 +87,7 @@ function SpellingSection() {
 
   const canAdd = from.trim().length > 0 && to.trim().length > 0;
   const inputClass =
-    'h-11 flex-1 rounded-xl border border-border bg-background px-3 font-sans text-base text-foreground';
+    'h-11 w-0 min-w-0 flex-1 rounded-xl border border-border bg-background px-3 font-sans text-base text-foreground';
 
   return (
     <View className="gap-3">
