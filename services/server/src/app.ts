@@ -17,6 +17,7 @@ import { z } from 'zod';
 
 import { env } from './env';
 import { startExport, startTranscription } from './jobs';
+import { transcriptionEngine } from './pipeline/transcribe';
 import { transliterationProvider } from './pipeline/transliterate';
 import {
   deleteProject,
@@ -60,7 +61,7 @@ app.onError((err, c) => {
 app.get('/health', (c) =>
   c.json({
     ok: true,
-    transcription: env.ASSEMBLYAI_API_KEY ? 'assemblyai' : 'demo',
+    transcription: transcriptionEngine(),
     transliteration: transliterationProvider() ?? 'off',
   }),
 );

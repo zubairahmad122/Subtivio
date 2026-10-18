@@ -123,3 +123,31 @@ export async function burnCaptions(projectDir: string, sourceName: string): Prom
   );
   await fs.rename(path.join(projectDir, 'export.tmp.mp4'), path.join(projectDir, 'export.mp4'));
 }
+
+/**
+ * Small mono MP3 of the speech for audio-only models: a 3-minute reel is
+ * well under 1 MB, so it can be sent inline in one request.
+ */
+export async function extractAudio(projectDir: string, sourceName: string): Promise<string> {
+  const out = path.join(projectDir, 'audio.mp3');
+  await run(
+    env.FFMPEG_PATH,
+    [
+      '-y',
+      '-i',
+      sourceName,
+      '-vn',
+      '-ac',
+      '1',
+      '-ar',
+      '16000',
+      '-c:a',
+      'libmp3lame',
+      '-b:a',
+      '32k',
+      'audio.mp3',
+    ],
+    projectDir,
+  );
+  return out;
+}

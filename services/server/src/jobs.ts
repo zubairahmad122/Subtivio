@@ -23,24 +23,26 @@ export function startTranscription(id: string, sourceName: string) {
   enqueue(async () => {
     try {
       const project = await getProject(id);
-      const file = path.join(projectDir(id), sourceName);
-      const info = await probe(file);
+      const dir = projectDir(id);
+      const info = await probe(path.join(dir, sourceName));
       await updateProject(id, {
         durationSec: info.durationSec,
         width: info.width,
         height: info.height,
       });
 
-      const asr = await transcribe(file, project.language);
-      // The demo transcript already has every script.
-      const converted = asr.mock
+      const asr = await transcribe(dir, sourceName, project.language, info.durationSec);
+      // Demo and Gemini transcripts already carry every script.
+      const converted = asr.allScripts
         ? { words: asr.words, complete: true }
         : await transliterate(asr.words, NATIVE_SCRIPT[project.language]);
 
       const notices = [
-        asr.mock && 'Demo transcript: add ASSEMBLYAI_API_KEY to the server for real captions.',
-        !asr.mock &&
-          !converted.complete &&
+        asr.engine === 'demo' &&
+          'Demo transcript: add ASSEMBLYAI_API_KEY or GEMINI_API_KEY to the server for real captions.',
+        asr.engine === 'gemini' &&
+          `Transcribed by Gemini (${asr.model}). Word timing is approximate; tap a line to fix it if needed.`,
+        !converted.complete &&
           'Some words are only in the original script: add GEMINI_API_KEY (free) or ANTHROPIC_API_KEY to the server for Roman/Urdu/Hindi conversion.',
       ].filter(Boolean);
 

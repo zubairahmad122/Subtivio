@@ -1,10 +1,10 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { zodOutputFormat } from '@anthropic-ai/sdk/helpers/zod';
-import { ApiError as GeminiApiError, GoogleGenAI } from '@google/genai';
 import type { Script, Word } from '@subtivio/core';
 import { z } from 'zod';
 
 import { env } from '../env';
+import { FatalError, gemini as geminiClient, geminiPool } from './gemini';
 
 const CHUNK = 120;
 
@@ -34,8 +34,6 @@ const userPrompt = (texts: string[]) =>
  */
 type Provider = { name: string; request: (texts: string[]) => Promise<Output | undefined> };
 
-class FatalError extends Error {}
-
 let anthropic: Anthropic | undefined;
 const claude: Provider = {
   name: 'Claude',
@@ -61,14 +59,13 @@ const claude: Provider = {
   },
 };
 
-let google: GoogleGenAI | undefined;
 const gemini: Provider = {
   name: 'Gemini',
   async request(texts) {
-    google ??= new GoogleGenAI({ apiKey: env.GEMINI_API_KEY });
-    try {
-      const response = await google.models.generateContent({
-        model: env.GEMINI_MODEL,
+    // The pool moves to the next free model when one is rate-limited.
+    const { result } = await geminiPool.run(async (model) => {
+      const response = await geminiClient().models.generateContent({
+        model,
         contents: userPrompt(texts),
         config: {
           systemInstruction: SYSTEM,
@@ -78,12 +75,8 @@ const gemini: Provider = {
       });
       const parsed = Output.safeParse(JSON.parse(response.text ?? 'null'));
       return parsed.success ? parsed.data : undefined;
-    } catch (error) {
-      if (error instanceof GeminiApiError && (error.status === 400 || error.status === 403)) {
-        if (/api key/i.test(error.message)) throw new FatalError('GEMINI_API_KEY is invalid.');
-      }
-      throw error;
-    }
+    });
+    return result;
   },
 };
 
@@ -96,7 +89,7 @@ function provider(): Provider | undefined {
 
 export const transliterationProvider = () => {
   const p = provider();
-  return p && `${p.name} (${p === claude ? env.TRANSLIT_MODEL : env.GEMINI_MODEL})`;
+  return p && (p === claude ? `Claude (${env.TRANSLIT_MODEL})` : 'Gemini (auto model)');
 };
 
 async function convertChunk(p: Provider, texts: string[]): Promise<Output | undefined> {

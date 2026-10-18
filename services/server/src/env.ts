@@ -9,7 +9,10 @@ const EnvSchema = z.object({
   ANTHROPIC_API_KEY: z.string().optional(),
   TRANSLIT_MODEL: z.string().default('claude-haiku-5-5'),
   GEMINI_API_KEY: z.string().optional(),
-  GEMINI_MODEL: z.string().default('gemini-3.8-flash'),
+  /** Tried first; the rest of the free Flash models follow automatically. */
+  GEMINI_MODEL: z.string().optional(),
+  /** Comma-separated list that replaces automatic model discovery. */
+  GEMINI_MODELS: z.string().optional(),
   FFMPEG_PATH: z.string().default('ffmpeg'),
   FFPROBE_PATH: z.string().default('ffprobe'),
 });
